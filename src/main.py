@@ -1,9 +1,12 @@
 import os
+import numpy
+import urllib.request, json
+from PIL import Image
 import gi
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, Gio, Gdk, GdkPixbuf, GLib
 
-import urllib.request, json 
+
 
 ### Settings
 DARK_MODE = True
@@ -18,7 +21,7 @@ WALLPAPER_COUNTRY = "CA"
 WALLPAPER_URL = "https://arc.msn.com/v3/Delivery/Cache?pid=279978&fmt=json&lc=en,en-US&ctry=" + WALLPAPER_COUNTRY
 
 
-# Changes the desktop color theme to match the wallpaper. 
+# This function changes the desktop color theme to match the wallpaper. 
 def change_color(color):
 
     theme = BASE_THEME
@@ -30,7 +33,6 @@ def change_color(color):
         print("ERROR: color not avaliable\n")
         return(1)
 
-    # If Darkmode is enabled
     if dark_mode:
         theme = "%s-Dark" % theme
         wm_theme = "%s-Dark" % wm_theme
@@ -48,12 +50,27 @@ def change_color(color):
             pass
 
 
-# Downloads the daily wallpaper
+# This function downloads the daily wallpaper
 def get_wallpaper():
     # TODO reimpliment in python
     os.system("./spotlight.sh" + " " + WALLPAPER_DIR)
 
+# This function determines the most dominant color of the background using PILLOW
+def find_color():
+    img = Image.open(WALLPAPER_DIR + "/background.jpg")
+    img.convert("RGB")
+    img.resize((1, 1), resample=0)
+
+    dom_color = img.getpixel((0, 0))
+
+# This function determines the distance between 2 RGB colors
+def ColorDistance(rgb1,rgb2):
+    '''d = {} distance between two colors(3)'''
+    rm = 0.5*(rgb1[0]+rgb2[0])
+    d = sum((2+rm,4,3-rm)*(rgb1-rgb2)**2)**0.5
+    return d
 
 if __name__ == "__main__":
-    change_color("red")
-    get_wallpaper()
+    #change_color("red")
+    #get_wallpaper()
+    find_color()
