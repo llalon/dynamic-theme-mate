@@ -1,5 +1,4 @@
 import os
-import numpy
 import urllib.request, json
 from PIL import Image
 from matplotlib import colors
