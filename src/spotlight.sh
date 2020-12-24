@@ -32,3 +32,11 @@ then
 	echo "Checksum incorrect"
 	exit 1
 fi
+
+previousImagePath="$(readlink "$backgroundsPath/background.jpg")"
+ln -sf "$imagePath" "$backgroundsPath/background.jpg"
+
+if [ "$keepImage" = false ] && [ -n "$previousImagePath" ] && [ -f "$previousImagePath" ] && [ "$imagePath" != "$previousImagePath" ]
+then
+	rm "$previousImagePath"
+fi

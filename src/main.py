@@ -13,8 +13,9 @@ BASE_WM_THEME = "Mint-Y"
 # All the colors avaliable to the theme
 BASE_THEME_COLORS = ["green", "aqua", "brown", "blue", "grey", "orange", "pink", "purple", "red", "teal"]
 # Wallpaper
-WALLPAPER_DIR = GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_PICTURES)
-WALLPAPER_URL = "https://arc.msn.com/v3/Delivery/Cache?pid=279978&fmt=json&lc=en,en-US&ctry=US"
+WALLPAPER_DIR = GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_PICTURES) + "/spotlight"
+WALLPAPER_COUNTRY = "CA"
+WALLPAPER_URL = "https://arc.msn.com/v3/Delivery/Cache?pid=279978&fmt=json&lc=en,en-US&ctry=" + WALLPAPER_COUNTRY
 
 
 # Changes the desktop color theme to match the wallpaper. 
@@ -46,8 +47,6 @@ def change_color(color):
             #Gio.Settings(schema="org.mate.Marco.general").set_string("theme", wm_theme)
             pass
 
-    # Debug
-    print(theme)
 
 # Downloads the daily wallpaper
 def get_wallpaper():
