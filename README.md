@@ -17,8 +17,10 @@ pip3 install suntime
 
 ## Usage
 
+If no background argument is given the daily windows spotlight image will be used.
+
 ```bash
-python3 main.py
+python3 main.py [-h] [--background BACKGROUND]
 ```
 ## Project status
 
