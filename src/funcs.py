@@ -1,3 +1,5 @@
+#!/usr/bin/python
+from gi.repository import Gtk, Gio, Gdk, GdkPixbuf, GLib, Geoclue
 import settings
 import os
 from datetime import datetime, timezone
@@ -10,19 +12,20 @@ from colormath.color_diff import delta_e_cie2000
 import gi
 gi.require_version('Geoclue', '2.0')
 gi.require_version("Gtk", "3.0")
-from gi.repository import Gtk, Gio, Gdk, GdkPixbuf, GLib, Geoclue
 
-def change_bg(bg = settings.BG_DIR + "/background.jpg"):
+
+def change_bg(bg=settings.BG_DIR + "/background.jpg"):
     '''Changes the desktop background to bg'''
 
     # Apply the theme. TODO: Support for other desktops
     if os.getenv("XDG_CURRENT_DESKTOP") == "MATE":
-            Gio.Settings(schema="org.mate.background").set_string("picture-filename", bg)
-
+        Gio.Settings(schema="org.mate.background").set_string(
+            "picture-filename", bg)
     else:
         print("WARNING: Only MATE is supported currently")
 
-def change_theme(dark_mode = False, bg = settings.BG_DIR + "/background.jpg", theme = settings.BASE_THEME, wm_theme = settings.BASE_WM_THEME, theme_colors = settings.BASE_THEME_COLORS):
+
+def change_theme(dark_mode=False, bg=settings.BG_DIR + "/background.jpg", theme=settings.BASE_THEME, wm_theme=settings.BASE_WM_THEME, theme_colors=settings.BASE_THEME_COLORS):
     '''Changes the desktop gtk and icon theme color to match the background bg'''
 
     # Find the best color match based on the background
@@ -41,23 +44,23 @@ def change_theme(dark_mode = False, bg = settings.BG_DIR + "/background.jpg", th
 
     # Apply the theme. TODO Support for other desktops
     if os.getenv("XDG_CURRENT_DESKTOP") == "MATE":
-            settings = Gio.Settings(schema="org.mate.interface")
-            settings.set_string("gtk-theme", theme)
-            settings.set_string("icon-theme", theme)
-            Gio.Settings(schema="org.mate.Marco.general").set_string("theme", wm_theme)
-            #Gio.Settings(schema="org.mate.background").set_string("picture-filename", bg)
-
+        settings = Gio.Settings(schema="org.mate.interface")
+        settings.set_string("gtk-theme", theme)
+        settings.set_string("icon-theme", theme)
+        Gio.Settings(schema="org.mate.Marco.general").set_string(
+            "theme", wm_theme)
     else:
         print("WARNING: Only MATE is supported currently")
 
 
-def get_dark_mode(mode = settings.DARK_MODE):
+def get_dark_mode(mode=settings.DARK_MODE):
     '''Takes the mode (dynamic, dark, light) and returns a bool based on whether dark mode is enabled or not'''
-    
+
     dark_mode = False
 
     if mode == "dynamic":
-        clue = Geoclue.Simple.new_sync('something',Geoclue.AccuracyLevel.NEIGHBORHOOD,None)
+        clue = Geoclue.Simple.new_sync(
+            'something', Geoclue.AccuracyLevel.NEIGHBORHOOD, None)
         coords = clue.get_location()
         lat = coords.get_property('latitude')
         lon = coords.get_property('longitude')
@@ -76,7 +79,8 @@ def get_dark_mode(mode = settings.DARK_MODE):
 
     return(dark_mode)
 
-def find_color(image = settings.BG_DIR + "/background.jpg"):
+
+def find_color(image=settings.BG_DIR + "/background.jpg"):
     '''Takes in a image, returns the most dominant color of that image'''
     img = Image.open(image)
     img.convert("RGB")
@@ -100,11 +104,11 @@ def color_distance(color1, color2):
     return(d)
 
 
-def get_bg(bg_dir = settings.BG_DIR, country = settings.BG_COUNTRY):
+def get_bg(bg_dir=settings.BG_DIR, country=settings.BG_COUNTRY):
     '''Downloads the latest spotlight bg from the country to the bg_dir'''
     # TODO reimpliment in python
     os.system("./spotlight.sh" + " " + bg_dir)
 
 
 if __name__ == "__main__":
-    print(get_dark_mode("dynamic"))
+    pass

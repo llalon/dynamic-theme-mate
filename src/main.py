@@ -1,10 +1,11 @@
 #!/usr/bin/python
-
-import sys, os
+import sys
+import os
 import argparse
 import funcs
 
-def main(argv):
+
+def main():
     '''main'''
 
     usage_msg = "main.py -b <background>"
