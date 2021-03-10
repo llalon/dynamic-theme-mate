@@ -24,12 +24,6 @@ If no background argument is given the daily windows spotlight image will be use
 ```bash
 python3 main.py [-h] [--background BACKGROUND]
 ```
-## Project status
-
-Coming soon:
-* GUI
-* Support for other desktops
-
 
 ## Contributing
 
